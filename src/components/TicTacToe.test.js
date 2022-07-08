@@ -77,4 +77,17 @@ describe('TicTacToe component', () => {
     })
   });
 
+  test('Should display current players turn', () => {
+    const status = screen.getByTestId('status');
+
+    expect(status.textContent).toBe(Constants.PLAYER_ONE_TURN);
+    Player_One.playOn(Positions.TOP_LEFT_SQUARE);
+
+    expect(status.textContent).toBe(Constants.PLAYER_TWO_TURN);
+
+    Player_Two.playOn(Positions.CENTER_SQUARE);
+    expect(status.textContent).toBe(Constants.PLAYER_ONE_TURN);
+
+  });
+
 });
