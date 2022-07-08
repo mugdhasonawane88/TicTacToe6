@@ -4,9 +4,11 @@ import { Constants, Positions } from '../constants/TestConstants';
 
 describe('TicTacToe component', () => {
 
-  test('Should have header', () => {
+  beforeEach(() => {
     render(<TicTacToe />);
+  })
 
+  test('Should have header', () => {
     const headerElement = screen.getByTestId('header');
 
     expect(headerElement).toBeInTheDocument();
@@ -14,8 +16,6 @@ describe('TicTacToe component', () => {
   });
 
   test('Should have empty nine squares in the board when game starts', () => {
-    render(<TicTacToe />);
-
     const squares = screen.queryAllByTestId('square');
 
     expect(squares).toHaveLength(Constants.TOTAL_SQUARES);
@@ -23,10 +23,8 @@ describe('TicTacToe component', () => {
       expect(square.textContent).toBe('');
     })
   });
- 
-  test('Should show X when player one plays on a square', () => {
-    render(<TicTacToe />);
 
+  test('Should show X when player one plays on a square', () => {
     const squares = screen.queryAllByTestId('square');
 
     fireEvent.click(squares[Positions.TOP_LEFT_SQUARE]);
