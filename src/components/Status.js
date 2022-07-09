@@ -12,7 +12,7 @@ function Status({ currentPlayer, board, onGameEnd }) {
 
   const updateStatus = () => {
 
-    if (hasWinner()) {
+    if (hadWinner()) {
       setStatusMessage(winner + Constants.WON);
       onGameEnd(true);
       return;
@@ -24,31 +24,31 @@ function Status({ currentPlayer, board, onGameEnd }) {
     return board[winningSquares[Position.FIRST_SQUARE]];
   }
 
-  const hasWinner = () => {
+  const hadWinner = () => {
     return isTopRowPlayedBySamePlayer() ||
       isMiddleRowPlayedBySamePlayer();
   }
 
   const isTopRowPlayedBySamePlayer = () => {
-    if (isSquaresPlayedBySamePlayer(Position.TOP_ROW_SQUARES)) {
-      setWinner(Player_Name[getPlayerSymbol(board, Position.TOP_ROW_SQUARES)]);
-      return true;
-    };
-    return false;
+    return isSquaresPlayedBySamePlayer(Position.TOP_ROW_SQUARES);
   };
 
   const isMiddleRowPlayedBySamePlayer = () => {
-    if (isSquaresPlayedBySamePlayer(Position.MIDDLE_ROW_SQUARES)) {
-      setWinner(Player_Name[getPlayerSymbol(board, Position.MIDDLE_ROW_SQUARES)]);
-      return true;
-    };
-    return false;
+    return isSquaresPlayedBySamePlayer(Position.MIDDLE_ROW_SQUARES);
   };
 
   const isSquaresPlayedBySamePlayer = (positions) => {
+    if (hasWinner(positions)) {
+      setWinner(Player_Name[getPlayerSymbol(board, positions)]);
+      return true;
+    }
+    return false;
+  };
+
+  const hasWinner = (positions) => {
     return positions.map((position) => board[position])
       .every((value, index, squares) => value && value === squares[Position.FIRST_SQUARE]);
-  };
+  }
 
   return (
     <label data-testid="status">{statusMessage}</label>
