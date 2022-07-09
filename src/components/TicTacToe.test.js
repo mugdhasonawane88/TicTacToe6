@@ -3,11 +3,12 @@ import TicTacToe from './TicTacToe';
 import { Constants, Positions } from '../constants/TestConstants';
 
 describe('TicTacToe component', () => {
-  let squares, Player_One, Player_Two;
+  let squares, Player_One, Player_Two, status;
 
   beforeEach(() => {
     render(<TicTacToe />);
     squares = screen.queryAllByTestId('square');
+    status = screen.getByTestId('status');
 
     Player_One = {
       playOn: (position) => {
@@ -78,8 +79,6 @@ describe('TicTacToe component', () => {
   });
 
   test('Should display current players turn', () => {
-    const status = screen.getByTestId('status');
-
     expect(status.textContent).toBe(Constants.PLAYER_ONE_TURN);
     Player_One.playOn(Positions.TOP_LEFT_SQUARE);
 
@@ -87,6 +86,17 @@ describe('TicTacToe component', () => {
 
     Player_Two.playOn(Positions.CENTER_SQUARE);
     expect(status.textContent).toBe(Constants.PLAYER_ONE_TURN);
+
+  });
+
+  test('Should announce player one as winner when he places symbol across the top row', () => {
+    Player_One.playOn(Positions.TOP_LEFT_SQUARE);
+    Player_Two.playOn(Positions.CENTER_LEFT_SQUARE);
+    Player_One.playOn(Positions.TOP_MIDDLE_SQUARE);
+    Player_Two.playOn(Positions.CENTER_SQUARE);
+    Player_One.playOn(Positions.TOP_RIGHT_SQUARE);
+
+    expect(status.textContent).toBe(Constants.PLAYER_ONE_WON);
 
   });
 
