@@ -12,7 +12,7 @@ function Status({ currentPlayer, board, onGameEnd }) {
 
   const updateStatus = () => {
 
-    if (isTopRowPlayedBySamePlayer()) {
+    if (hasWinner()) {
       setStatusMessage(winner + Constants.WON);
       onGameEnd(true);
       return;
@@ -20,13 +20,26 @@ function Status({ currentPlayer, board, onGameEnd }) {
     setStatusMessage(currentPlayer.NAME + Constants.TURN);
   };
 
-  const getPlayerSymbol = (board) => {
-    return board[Position.TOP_ROW_SQUARES[Position.FIRST_SQUARE]];
+  const getPlayerSymbol = (board, winningSquares) => {
+    return board[winningSquares[Position.FIRST_SQUARE]];
+  }
+
+  const hasWinner = () => {
+    return isTopRowPlayedBySamePlayer() ||
+      isMiddleRowPlayedBySamePlayer();
   }
 
   const isTopRowPlayedBySamePlayer = () => {
     if (isSquaresPlayedBySamePlayer(Position.TOP_ROW_SQUARES)) {
-      setWinner(Player_Name[getPlayerSymbol(board)]);
+      setWinner(Player_Name[getPlayerSymbol(board, Position.TOP_ROW_SQUARES)]);
+      return true;
+    };
+    return false;
+  };
+
+  const isMiddleRowPlayedBySamePlayer = () => {
+    if (isSquaresPlayedBySamePlayer(Position.MIDDLE_ROW_SQUARES)) {
+      setWinner(Player_Name[getPlayerSymbol(board, Position.MIDDLE_ROW_SQUARES)]);
       return true;
     };
     return false;
