@@ -16,7 +16,8 @@ export const Constants = {
     EMPTY_BOARD: [...Array(9).fill('')],
     PLAYER_ONE_WINNING_BOARD: ['X', 'X', 'X', 'O', 'O', '', '', '', ''],
     PLAYER_ONE_WON: 'Player One Won',
-    PLAYER_TWO_WON: 'Player Two Won'
+    PLAYER_TWO_WON: 'Player Two Won',
+    GAME_IS_DRAW: 'Game is draw'
 }
 
 export const Positions = {
