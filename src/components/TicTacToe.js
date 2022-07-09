@@ -7,6 +7,7 @@ function TicTacToe() {
 
   const [board, setBoard] = useState(Array(Constants.TOTAL_SQUARES).fill(''));
   const [currentPlayer, changeCurrentPlayer] = useState(Constants.PLAYER_ONE);
+  const [isGameEnded, setIsGameEnded] = useState(false);
 
   const playedOn = (position) => {
     const squares = board.slice();
@@ -19,6 +20,10 @@ function TicTacToe() {
     return currentPlayer === Constants.PLAYER_ONE ? Constants.PLAYER_TWO : Constants.PLAYER_ONE;
   }
 
+  const handleGameEnd = () => {
+    setIsGameEnded(true);
+  };
+
   const renderBoard = () => {
     return (
       <div className='board'>
@@ -30,7 +35,7 @@ function TicTacToe() {
                 data-testid='square'
                 className='square'
                 onClick={() => playedOn(position)}
-                disabled={value}>
+                disabled={value || isGameEnded}>
                 {value}
               </button>
             )
@@ -47,7 +52,11 @@ function TicTacToe() {
       </header>
       {renderBoard()}
       <div className='status'>
-        <Status currentPlayer={currentPlayer} board={board} />
+        <Status
+          currentPlayer={currentPlayer}
+          board={board}
+          onGameEnd={() => handleGameEnd()}
+        />
       </div>
     </div>
   );
