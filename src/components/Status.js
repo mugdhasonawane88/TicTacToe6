@@ -18,13 +18,16 @@ function Status({ currentPlayer, board, onGameEnd }) {
       return;
     }
 
-    if (board.every((value) => { return value })) {
+    if (isBoardFull()) {
       setStatusMessage(Constants.GAME_IS_DRAW);
       return;
     }
-
     setStatusMessage(currentPlayer.NAME + Constants.TURN);
   };
+
+  const isBoardFull = () => {
+    return board.every((value) => { return value });
+  }
 
   const getPlayerSymbol = (board, winningSquares) => {
     return board[winningSquares[Position.FIRST_SQUARE]];
@@ -34,7 +37,6 @@ function Status({ currentPlayer, board, onGameEnd }) {
     return isAnyRowPlayedBySamePlayer() ||
       isAnyColumnPlayedBySamePlayer() ||
       isAnyDiagonalPlayedBySamePlayer();
-
   }
 
   const isAnyRowPlayedBySamePlayer = () => {
