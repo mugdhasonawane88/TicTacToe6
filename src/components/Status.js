@@ -4,14 +4,16 @@ import PropTypes from 'prop-types';
 
 function Status({ currentPlayer, board, onGameEnd }) {
   const [statusMessage, setStatusMessage] = useState('');
+  const [winner, setWinner] = useState('');
 
   useEffect(() => {
     updateStatus();
   });
 
   const updateStatus = () => {
+
     if (isTopRowPlayedBySamePlayer()) {
-      setStatusMessage(Player_Name[getPlayerSymbol(board)] + Constants.WON);
+      setStatusMessage(winner + Constants.WON);
       onGameEnd(true);
       return;
     }
@@ -23,7 +25,15 @@ function Status({ currentPlayer, board, onGameEnd }) {
   }
 
   const isTopRowPlayedBySamePlayer = () => {
-    return Position.TOP_ROW_SQUARES.map((position) => board[position])
+    if (isSquaresPlayedBySamePlayer(Position.TOP_ROW_SQUARES)) {
+      setWinner(Player_Name[getPlayerSymbol(board)]);
+      return true;
+    };
+    return false;
+  };
+
+  const isSquaresPlayedBySamePlayer = (positions) => {
+    return positions.map((position) => board[position])
       .every((value, index, squares) => value && value === squares[Position.FIRST_SQUARE]);
   };
 
